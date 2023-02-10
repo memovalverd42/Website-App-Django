@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+
+/env
+/.env
+/bookmarks/db.sqlite3
+/bookmarks/media/
+
+*.log
+*.pot

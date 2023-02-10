@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+    <h1>Mi tablero</h1>
+    <p>
+        Bienvenido a tu tablero. Puedes <a href="{% url "edit" %}">
+        editar tu perfil</a> o <a href="{% url "password_change" %}">
+        cambiar tu contraseña</a>
+    </p>
+{% endblock %}
