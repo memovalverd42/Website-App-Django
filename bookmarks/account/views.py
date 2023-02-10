@@ -1,18 +1,21 @@
+# Django imports
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+# Local Django
 from .forms import LoginForm, UserRegistrationForm, \
                     UserEditForm, ProfileEditForm
 from .models import Profile
-from django.contrib import messages
 
 def user_login(request):
     '''Vista para el manejo del login'''
     if request.method == 'POST':
+        # Creacion de instancia de formulario con el request
         form = LoginForm(request.POST)
-        print(request.POST) # TODO: eliminar esta linea
         if form.is_valid():
+            # Si se cumple la validacion se obtiene diccionario con datos
             cd = form.cleaned_data
             # authenticate() -> revisa las credenciales y retorna un objeto User 
             # si son correctas.
@@ -22,6 +25,7 @@ def user_login(request):
                         password=cd['password'],
                     )
             
+            # Si la utenticacion fue exitosa...
             if user is not None:
                 if user.is_active:
                     # login() -> Establece al usuario en la sesion actual
@@ -32,7 +36,9 @@ def user_login(request):
             else:
                 return HttpResponse('Login invalido')
 
+    # En caso de que apenas se vaya a hacer un llenado del form
     else:
+        # Se genera una instancia del formulario para retornar
         form = LoginForm()
     
     return render(
@@ -43,6 +49,7 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
+    '''Vista para manejo del dashboard'''
     return render(
         request,
         'account/dashboard.html',
@@ -50,6 +57,7 @@ def dashboard(request):
     )
 
 def register(request):
+    '''Vista para el registro de usuarios'''
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
@@ -82,6 +90,7 @@ def register(request):
 
 @login_required
 def edit(request):
+    '''Vista para editar perfil de usuario'''
     if request.method == 'POST':
         user_form = UserEditForm(
                         instance=request.user,
@@ -103,6 +112,9 @@ def edit(request):
     
     else:
         user_form = UserEditForm(instance=request.user)
+        user_profile = Profile.objects.filter(user=request.user)
+        if not user_profile.exists():
+            Profile.objects.create(user=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
 
     return render(
