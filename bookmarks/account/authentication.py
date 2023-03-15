@@ -2,6 +2,11 @@
 Archivo para generar formas de autenticacion custom
 """
 from django.contrib.auth.models import User
+from account.models import Profile
+
+def create_profile(backend, user, *args, **kwards):
+    '''Crear un perfil de usuario para la autenticacion son redes sociales'''
+    Profile.objects.get_or_create(user=user)
 
 class EmailAuthBackend:
     """
