@@ -64,10 +64,12 @@ class UserEditForm(forms.ModelForm):
             raise forms.ValidationError('El correo ya está en uso.')
         return data
 
+
 class ProfileEditForm(forms.ModelForm):
     '''Formulario para editar datos de un perfil'''
     class Meta:
         model = Profile
-        # widgets={"date_of_birth": forms.Da}
-        # widgets = {'date_of_birth': forms.DateInput(format='%d/%m/%Y')}
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date', 'format': '%d/%m/%Y'}),
+        }
         fields = ['date_of_birth', 'photo']

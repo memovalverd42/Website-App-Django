@@ -10,4 +10,5 @@ urlpatterns = [
         name='detail'
     ),
     path('like/', image_like, name='like'),
+    path('', image_list, name='list'),
 ]

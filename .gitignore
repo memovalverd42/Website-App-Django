@@ -5,6 +5,8 @@ __pycache__/
 /.env
 /bookmarks/db.sqlite3
 /bookmarks/media/
+/bookmarks/cert.crt
+/bookmarks/cert.key
 
 *.log
 *.pot
