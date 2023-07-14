@@ -56,6 +56,7 @@ urlpatterns = [
     #     auth_views.PasswordResetCompleteView.as_view(),
     #     name='password_reset_complete'
     # ),
+    
     # Urls para la autenticacion
     path('', include('django.contrib.auth.urls')),
     

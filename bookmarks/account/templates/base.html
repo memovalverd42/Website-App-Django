@@ -1,15 +1,18 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+
     <head>
         <title>{% block title %}{% endblock %}</title>
         <link href="{% static "css/base.css" %}" rel="stylesheet">
     </head>
+
     <body>
         <div id="header">
-            <span class="logo">Bookmarks</span>
+            <a class="logo" href="{% url "dashboard" %}">Bookmarks</a>
 
             {% if request.user.is_authenticated %}
+
             <ul class="menu">
                 <li {% if section == "dashboard" %}class="selected"{% endif %}>
                     <a href="{% url "dashboard" %}">Mi tablero</a>
@@ -21,28 +24,39 @@
                     <a href="#">Personas</a>
                 </li>
             </ul>
+
             {% endif %}
+
             <span class="user">
             {% if request.user.is_authenticated %}
+
                 Hola {{ request.user.first_name|default:request.user.username }},
                 <a href="{% url "logout" %}">Cerrar sesion</a>
+
             {% else %}
+
                 <a href="{% url "login" %}">Iniciar sesion</a>
+
             {% endif %}
             </span>
         </div>
         
         {% if messages %}
+
             <ul class="messages">
                 {% for message in messages %}
-                    <li class="{{ message.tags }}">
-                        {{ message|safe }}
-                        <a href="{% url 'dashboard' %}" class="close">x</a>
-                    </li>
+
+                <li class="{{ message.tags }}">
+                    {{ message|safe }} {% comment %} el filtro "safe se usa para que Django no escape los caracteres especiales" {% endcomment %}
+                    <a href="{% url 'dashboard' %}" class="close">x</a>
+                </li>
+
                 {% endfor %}
             </ul>
+
         {% endif %}
-            
+        
+        {% comment %} Bloque para cargar todo el contenido que extiende de base.html {% endcomment %}
         <div id="content">
             {% block content %}
             {% endblock %}

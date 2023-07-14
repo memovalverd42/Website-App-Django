@@ -222,6 +222,7 @@ a.like, a.follow { float:right; margin-top:-8px; }
     border-top:8px solid #12c064;
     background:#eee;
 }
+
 #image-list img { width:220px; height:220px; }
 #image-list .info { padding:10px; }
 #image-list .info a { color:#333; }
