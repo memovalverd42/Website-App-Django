@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', "192.168.100.45", "0.0.0.0"]
 
 # Application definition
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
                                     # y se coloca por ecima para que los modelos custom sean los que se carguen
                                     # primero y sean los que se utilizaran en los procesos de autenticacion
     'images.apps.ImagesConfig',
+    'actions.apps.ActionsConfig',
     
     # Django apps                                 
     'django.contrib.admin',
@@ -190,4 +192,10 @@ if DEBUG:
     import mimetypes
     mimetypes.add_type('application/javascript', '.js', True)
     mimetypes.add_type('text/css', '.ccs', True)
+
+# Definir las URL absolutas personalizadas para modelo User. 
+# Estas URL absolutas se utilizan, por ejemplo, en métodos como get_absolute_url()
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail', args={u.username})
+}
     
